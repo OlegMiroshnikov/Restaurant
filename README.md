@@ -36,15 +36,11 @@ It should contain the code and README.md with API documentation and curl command
 *	Dish: id, name, date, price, restaurant;
 *	Vote: id, date, user, restaurant.
  
-
-Request format
-**<Request-type>  [(<Request-body>)]  [<?Request-parameters>]  [Response-body]** 
-
 > For all requests except registration, authorization is required.
 > Basic authorization supported: email, password.
 
 -----------------------------
-### For users
+### Для пользователей
 
 ##### Работа пользователя со своим профилем
 - Регистрация	
@@ -89,7 +85,7 @@ Request format
       - `curl -s -X DELETE http://localhost:8080/restaurant/rest/votes --user user1@mail.ru:password1`	
 -----------------------------
 
-### For admin
+### Для администраторов
 
 ##### Работа с пользователями
 - Список всех пользователей	
@@ -156,3 +152,13 @@ Request format
      - `curl -s -X POST -d '{"name":"" }' -H 'Content-Type: application/json' http://localhost:8080/restaurant/rest/admin/restaurants/5/dishes --user admin@gmail.com:admin`
 	
 -----------------------------		
+### Используемые инструменты и технологии
+- Maven
+- Java 11
+- Spring (Data JPA, MVC, Security, Test, Security test)
+- Hibernate
+- SLF4J, Logback
+- HSQLDB
+- JUnit (Jupiter)
+- Json (Jackson)
+
