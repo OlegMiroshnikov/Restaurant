@@ -1,0 +1,18 @@
+<config xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
+        xmlns='http://www.ehcache.org/v3'
+        xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
+    <cache-template name="expiryCache">
+        <expiry>
+            <ttl unit="minutes">180</ttl>
+        </expiry>
+        <heap unit="entries">5000</heap>
+    </cache-template>
+    <cache-template name="singleNonExpiryCache">
+        <expiry>
+            <none/>
+        </expiry>
+        <heap>1</heap>
+    </cache-template>
+
+    <cache alias="restaurants" uses-template="singleNonExpiryCache"/>
+</config>
