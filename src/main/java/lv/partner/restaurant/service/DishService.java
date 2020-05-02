@@ -2,10 +2,10 @@ package lv.partner.restaurant.service;
 
 import lv.partner.restaurant.model.Dish;
 import lv.partner.restaurant.repository.DishRepository;
-import lv.partner.restaurant.repository.RestaurantRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.Assert;
 
 import java.time.LocalDate;
@@ -21,22 +21,20 @@ public class DishService {
     @Autowired
     private DishRepository dishRepository;
     @Autowired
-    private RestaurantRepository restaurantRepository;
+    private RestaurantService restaurantService;
 
+    @Transactional
     public Dish create(Dish dish, int restaurantId) {
         Assert.notNull(dish, "dish must not be null");
-        dish.setRestaurant(restaurantRepository.getOne(restaurantId));
+        dish.setRestaurant(restaurantService.get(restaurantId));
         return dishRepository.save(dish);
     }
 
+    @Transactional
     public void update(Dish dish, int restaurantId) {
         Assert.notNull(dish, "dish must not be null");
-        if (!dish.isNew() && get(dish.getId(), restaurantId) == null) {
-            checkNotFoundWithId(null, dish.getId());
-        } else {
-            dish.setRestaurant(restaurantRepository.getOne(restaurantId));
-            checkNotFoundWithId(dishRepository.save(dish), dish.getId());
-        }
+        dish.setRestaurant(restaurantService.get(restaurantId));
+        checkNotFoundWithId(dishRepository.save(dish), dish.getId());
     }
 
     public void delete(int id, int restaurantId) {

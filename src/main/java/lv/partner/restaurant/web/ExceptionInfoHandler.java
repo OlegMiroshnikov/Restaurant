@@ -10,18 +10,20 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindException;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
+import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.ResponseStatus;
-import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
+import org.springframework.web.servlet.NoHandlerFoundException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
 
 import static lv.partner.restaurant.util.exception.ErrorType.*;
 
-@RestControllerAdvice(annotations = RestController.class)
+@ControllerAdvice
+@ResponseBody
 public class ExceptionInfoHandler {
     private static final Logger log = LoggerFactory.getLogger(ExceptionInfoHandler.class);
 
@@ -71,6 +73,13 @@ public class ExceptionInfoHandler {
     public ErrorInfo illegalRequestDataError(HttpServletRequest req, Exception e) {
         return logAndGetErrorInfo(req, e, false, VALIDATION_ERROR);
     }
+
+    @ResponseStatus(value = HttpStatus.NOT_FOUND)  // 404
+    @ExceptionHandler(NoHandlerFoundException.class)
+    public ErrorInfo noHandlerFoundError(HttpServletRequest req, NoHandlerFoundException e) {
+        return logAndGetErrorInfo(req, e, true, APP_ERROR);
+    }
+
 
     @ResponseStatus(value = HttpStatus.UNPROCESSABLE_ENTITY)  // 422
     @ExceptionHandler({NotPossibleVoteException.class})

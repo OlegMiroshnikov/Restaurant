@@ -72,8 +72,8 @@ It should contain the code and README.md with API documentation and curl command
 
 ##### Голосование
 - Проголосовать / изменить голосование  
-     - `Post  /rest/restaurants/id/votes/   Vote`
-     - `curl -s -i -X POST -d '{ }' -H 'Content-Type:application/json;charset=UTF-8' http://localhost:8080/restaurant/rest/restaurants/5/votes --user user1@mail.ru:password1`
+     - `Put  /rest/restaurants/id/votes/ `
+     - `curl -s -i -X PUT -d '{ }' http://localhost:8080/restaurant/rest/restaurants/5/votes --user user1@mail.ru:password1`
 - Получить голосование за текущий день 
      - `Get  /rest/votes/	Vote`
      - `curl -s http://localhost:8080/restaurant/rest/votes --user user1@mail.ru:password1`

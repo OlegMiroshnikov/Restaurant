@@ -33,8 +33,4 @@
 
     <context:component-scan base-package="lv.partner.**.web"/>
 
-    <bean class="org.springframework.web.servlet.view.InternalResourceViewResolver"
-          p:prefix="/WEB-INF/"
-          p:suffix=".jsp"/>
-
 </beans>

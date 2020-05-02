@@ -20,7 +20,8 @@ import static java.time.LocalDate.of;
 import static lv.partner.restaurant.DishTestData.*;
 import static lv.partner.restaurant.RestaurantTestData.RESTAURANT1_ID;
 import static lv.partner.restaurant.TestUtil.validateRootCause;
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertNull;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 @SpringJUnitConfig(locations = {
         "classpath:spring/spring-app.xml",
@@ -64,13 +65,6 @@ class DishServiceTest {
         Dish updated = DishTestData.getUpdated();
         dishService.update(updated, RESTAURANT1_ID);
         DISH_MATCHER.assertMatch(dishService.get(DISH1_ID, RESTAURANT1_ID), updated);
-    }
-
-    @Test
-    void updateNotFound() {
-        NotFoundException ex = assertThrows(NotFoundException.class,
-                () -> dishService.update(DISH1, RESTAURANT1_ID + 1));
-        assertEquals("Not found entity with id=" + DISH1_ID, ex.getMessage());
     }
 
     @Test

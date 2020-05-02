@@ -7,14 +7,12 @@ import lv.partner.restaurant.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
-import org.springframework.test.web.servlet.ResultActions;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
 
 import static lv.partner.restaurant.RestaurantTestData.RESTAURANT1_ID;
-import static lv.partner.restaurant.TestUtil.readFromJson;
 import static lv.partner.restaurant.TestUtil.userHttpBasic;
 import static lv.partner.restaurant.UserTestData.USER1;
 import static lv.partner.restaurant.UserTestData.USER1_ID;
@@ -36,33 +34,28 @@ class UserVoteControllerTest extends AbstractControllerTest {
     private VoteService voteService;
 
     @Test
-    void createOrUpdate() throws Exception {
-        if (!LocalTime.now().isAfter(VOTE_TIME)) {
-            Vote newVote = new Vote(LocalDate.now());
-            ResultActions action = perform(MockMvcRequestBuilders.post(REST_URL + "restaurants/" + RESTAURANT1_ID + "/votes/")
-                    .with(userHttpBasic(USER1))
-                    .contentType(MediaType.APPLICATION_JSON))
-                    .andDo(print())
-                    .andExpect(status().isCreated());
-            Vote created = readFromJson(action, Vote.class);
-            int newId = created.getId();
-            newVote.setId(newId);
-            newVote.setRestaurant(created.getRestaurant());
-            VOTE_MATCHER.assertMatch(created, newVote);
-            VOTE_MATCHER.assertMatch(voteService.get(newId, USER1_ID), newVote);
-        }
+    void createFirstTimeVote() throws Exception {
+        perform(MockMvcRequestBuilders.put(REST_URL + "restaurants/" + RESTAURANT1_ID + "/votes/")
+                .with(userHttpBasic(USER1)))
+                .andDo(print())
+                .andExpect(status().isNoContent());
     }
 
     @Test
-    void notAccepted() throws Exception {
+    void updateVote() throws Exception {
+        voteService.create(new Vote(LocalDate.now()), RESTAURANT1_ID, USER1_ID);
         if (LocalTime.now().isAfter(VOTE_TIME)) {
-            perform(MockMvcRequestBuilders.post(REST_URL + "restaurants/" + RESTAURANT1_ID + "/votes/")
-                    .with(userHttpBasic(USER1))
-                    .contentType(MediaType.APPLICATION_JSON))
+            perform(MockMvcRequestBuilders.put(REST_URL + "restaurants/" + (RESTAURANT1_ID + 1) + "/votes/")
+                    .with(userHttpBasic(USER1)))
                     .andDo(print())
                     .andExpect(status().isUnprocessableEntity())
                     .andExpect(errorType(VALIDATION_ERROR))
                     .andExpect(detailMessage(VOTE_NOT_ACCEPTED));
+        } else {
+            perform(MockMvcRequestBuilders.put(REST_URL + "restaurants/" + RESTAURANT1_ID + "/votes/")
+                    .with(userHttpBasic(USER1)))
+                    .andDo(print())
+                    .andExpect(status().isNoContent());
         }
     }
 
