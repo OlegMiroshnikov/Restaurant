@@ -3,7 +3,7 @@
         xsi:schemaLocation="http://www.ehcache.org/v3 http://www.ehcache.org/schema/ehcache-core-3.0.xsd">
     <cache-template name="expiryCache">
         <expiry>
-            <ttl unit="minutes">180</ttl>
+            <ttl unit="minutes">300</ttl>
         </expiry>
         <heap unit="entries">5000</heap>
     </cache-template>

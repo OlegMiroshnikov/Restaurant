@@ -26,7 +26,6 @@ public class Dish extends AbstractNamedEntity {
     @NotNull
     private LocalDate date = LocalDate.now();
 
-    @Cache(usage = CacheConcurrencyStrategy.NONSTRICT_READ_WRITE)
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "restaurant_id", nullable = false)
     @OnDelete(action = OnDeleteAction.CASCADE)
