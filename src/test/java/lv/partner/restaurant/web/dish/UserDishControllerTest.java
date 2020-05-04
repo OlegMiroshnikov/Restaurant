@@ -1,6 +1,5 @@
 package lv.partner.restaurant.web.dish;
 
-import lv.partner.restaurant.model.Dish;
 import lv.partner.restaurant.service.DishService;
 import lv.partner.restaurant.web.AbstractControllerTest;
 import org.junit.jupiter.api.Test;
@@ -8,12 +7,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 
-import java.math.BigDecimal;
-import java.time.LocalDate;
-import java.util.List;
-
-import static lv.partner.restaurant.DishTestData.DISHES;
-import static lv.partner.restaurant.DishTestData.DISH_MATCHER;
+import static lv.partner.restaurant.DishTestData.*;
 import static lv.partner.restaurant.RestaurantTestData.RESTAURANT1_ID;
 import static lv.partner.restaurant.TestUtil.userHttpBasic;
 import static lv.partner.restaurant.UserTestData.USER1;
@@ -31,18 +25,12 @@ class UserDishControllerTest extends AbstractControllerTest {
 
     @Test
     void getByNow() throws Exception {
-        Dish newDish1 = new Dish("New dish1", new BigDecimal("10.00"), LocalDate.now());
-        Dish newDish2 = new Dish("New dish2", new BigDecimal("15.00"), LocalDate.now());
-        Dish createdDish1 = dishService.create(newDish1, RESTAURANT1_ID);
-        newDish1.setId(createdDish1.getId());
-        Dish createdDish2 = dishService.create(newDish2, RESTAURANT1_ID);
-        newDish2.setId(createdDish2.getId());
         perform(MockMvcRequestBuilders.get(REST_URL)
                 .with(userHttpBasic(USER1)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(DISH_MATCHER.contentJson(List.of(newDish1, newDish2)));
+                .andExpect(DISH_MATCHER.contentJson(DISHES_NOW));
     }
 
     @Test
@@ -54,7 +42,7 @@ class UserDishControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(DISH_MATCHER.contentJson(DISHES));
+                .andExpect(DISH_MATCHER.contentJson(DISH3, DISH2, DISH1));
     }
 
     @Test
@@ -71,6 +59,5 @@ class UserDishControllerTest extends AbstractControllerTest {
         perform(MockMvcRequestBuilders.get(REST_URL))
                 .andExpect(status().isUnauthorized());
     }
-
 
 }

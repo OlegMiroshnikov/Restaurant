@@ -109,7 +109,7 @@ class DishServiceTest {
 
     @Test
     void getBetween() {
-        DISH_MATCHER.assertMatch(dishService.getBetween(of(2020, 3, 5), LocalDate.of(2020, 3, 6), RESTAURANT1_ID), DISHES);
+        DISH_MATCHER.assertMatch(dishService.getBetween(of(2020, 3, 5), LocalDate.of(2020, 3, 6), RESTAURANT1_ID), DISH3, DISH2, DISH1);
     }
 
     @Test

@@ -151,7 +151,7 @@ class VoteServiceTest {
 
     @Test
     void getBetween() {
-        VOTE_MATCHER.assertMatch(voteService.getBetween(of(2020, 3, 5), LocalDate.of(2020, 3, 6), USER1_ID), VOTES);
+        VOTE_MATCHER.assertMatch(voteService.getBetween(of(2020, 3, 5), LocalDate.of(2020, 3, 6), USER1_ID), VOTE4, VOTE1);
     }
 
     @Test

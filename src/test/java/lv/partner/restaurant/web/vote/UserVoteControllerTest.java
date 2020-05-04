@@ -16,8 +16,7 @@ import static lv.partner.restaurant.RestaurantTestData.RESTAURANT1_ID;
 import static lv.partner.restaurant.TestUtil.userHttpBasic;
 import static lv.partner.restaurant.UserTestData.USER1;
 import static lv.partner.restaurant.UserTestData.USER1_ID;
-import static lv.partner.restaurant.VoteTestData.VOTES;
-import static lv.partner.restaurant.VoteTestData.VOTE_MATCHER;
+import static lv.partner.restaurant.VoteTestData.*;
 import static lv.partner.restaurant.util.VoteUtil.VOTE_NOT_ACCEPTED;
 import static lv.partner.restaurant.util.VoteUtil.VOTE_TIME;
 import static lv.partner.restaurant.util.exception.ErrorType.VALIDATION_ERROR;
@@ -61,30 +60,22 @@ class UserVoteControllerTest extends AbstractControllerTest {
 
     @Test
     void deleteByNow() throws Exception {
-        Vote newVote = new Vote(LocalDate.now());
-        Vote created = voteService.create(newVote, RESTAURANT1_ID, USER1_ID);
-        newVote.setId(created.getId());
-        newVote.setRestaurant(created.getRestaurant());
         perform(MockMvcRequestBuilders.delete(REST_URL + "votes/")
                 .with(userHttpBasic(USER1)))
                 .andDo(print())
                 .andExpect(status().isNoContent());
-        assertThrows(NotFoundException.class, () -> voteService.get(newVote.getId(), USER1_ID));
+        assertThrows(NotFoundException.class, () -> voteService.get(VOTE6.getId(), USER1_ID));
     }
 
 
     @Test
     void getByNow() throws Exception {
-        Vote newVote = new Vote(LocalDate.now());
-        Vote created = voteService.create(newVote, RESTAURANT1_ID, USER1_ID);
-        newVote.setId(created.getId());
-        newVote.setRestaurant(created.getRestaurant());
         perform(MockMvcRequestBuilders.get(REST_URL + "votes/")
                 .with(userHttpBasic(USER1)))
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(newVote));
+                .andExpect(VOTE_MATCHER.contentJson(VOTE6));
     }
 
     @Test
@@ -96,7 +87,7 @@ class UserVoteControllerTest extends AbstractControllerTest {
                 .andDo(print())
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(VOTE_MATCHER.contentJson(VOTES));
+                .andExpect(VOTE_MATCHER.contentJson(VOTE4, VOTE1));
     }
 
     @Test

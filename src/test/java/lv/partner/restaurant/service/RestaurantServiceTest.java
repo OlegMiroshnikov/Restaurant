@@ -11,7 +11,6 @@ import org.springframework.test.context.jdbc.SqlConfig;
 import org.springframework.test.context.junit.jupiter.SpringJUnitConfig;
 
 import javax.validation.ConstraintViolationException;
-import java.util.List;
 
 import static lv.partner.restaurant.RestaurantTestData.*;
 import static lv.partner.restaurant.TestUtil.validateRootCause;

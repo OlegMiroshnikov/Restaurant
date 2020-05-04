@@ -34,11 +34,16 @@ VALUES ('dish1_rest1', 10.00, '2020-03-05', 5),
        ('Dish2_rest1', 15.00, '2020-03-05', 5),
        ('Dish3_rest1', 15.00, '2020-03-06', 5),
        ('Dish1_rest2', 5.00, '2020-03-05', 6),
-       ('Dish1_rest4', 7.00, '2020-03-05', 8);
+       ('Dish1_rest4', 7.00, '2020-03-05', 8),
+       ('dish4_rest1', 20.70, CURRENT_DATE, 5),
+       ('Dish5_rest1', 50.00, CURRENT_DATE, 5),
+       ('Dish2_rest2', 10.00, CURRENT_DATE, 6);
 
 INSERT INTO votes (date, user_id, restaurant_id)
 VALUES ('2020-03-05', 1, 5),
        ('2020-03-05', 3, 5),
        ('2020-03-05', 2, 6),
        ('2020-03-06', 1, 5),
-       ('2020-03-06', 4, 5);
+       ('2020-03-06', 4, 5),
+       (CURRENT_DATE, 1, 5),
+       (CURRENT_DATE, 4, 5);
